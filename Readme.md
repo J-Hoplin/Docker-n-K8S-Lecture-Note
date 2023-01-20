@@ -6,6 +6,10 @@ Learning Docker and Kubernetes
 - 필자는 ARM 아키텍쳐 CPU를 사용중입니다(Apple Silicon).
 - Kubernetes는 Minikube를 사용합니다
 ***
+## License
+
+- BSD 3.0 License
+***
 ## Install Docker
 
 - Mac OS

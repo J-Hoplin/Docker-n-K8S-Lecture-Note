@@ -118,7 +118,9 @@ docker run\
 ~~~
 
 웹 브라우저를 켜고 `localhost:9000`에 접속해본다.(https는 인증서 설정이 되어있지 않기에 9100포트는 접속이 불가능할 것이다.)아래와 같이 메세지가 나오면 된다
+
 ![](./imgs/2.png)
+
 컨테이너를 `재시작하는 명령어를 작성해본다`. `docker stop`,`docker start`,`docker restart` 세가지 모두 사용해 보자. 그리고 재시작 후에도 웹 브라우저에서 정상적으로 메세지가 출력되는지도 확인한다.
 ~~~
 docker stop my-apache && docker start my-apache

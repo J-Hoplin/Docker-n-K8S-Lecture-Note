@@ -89,6 +89,20 @@ docker run <옵션> <이미지 이름> <실행할 파일 혹은 실행 명령어
     - `-d` : detach모드이다. detach모드는 백그라운드에서 실행하는 모드를 의미한다.
     - `-itd` : detach 모드에서 상호작용 가능한 쉘이 수행된다. 즉 상호작용이 가능한 쉘이 실행되지만, 백그라운드에서 실행되어 보이지 않는다. 주로 컨테이너 실험(도커 네트워크, 볼륨, Dockerfile 작동 디버깅)을 하거나, 테스트를 할때 유용하게 쓰인다.
 
+`docker run`을 할때 만약 실행하려는 이미지가 호스트 머신에 없다면 아래 예시와 같이, 자동으로 이미지를 `docker hub`에서 검색해 pull한 다음 `docker run`을 실행한다.
+
+~~~
+docker run --name docker-run-test -e POSTGRES_PASSWORD='password1234!' postgres
+
+//결과
+Unable to find image 'postgres:latest' locally
+latest: Pulling from library/postgres
+934ce60d1040: Already exists
+0e0e7ecfda3f: Pull complete
+681739d8d2f1: Pull complete
+...
+~~~
+
 #### 이름 지정
 컨테이너 실행시 `--name`옵션을 사용하여 이름을 지정해 줄 수 있다. 만약 이름을 지정하지 않는다면, 아래 예시와 같이 Docker Engine에 의해 랜덤 이름으로 생성된다.
 ~~~

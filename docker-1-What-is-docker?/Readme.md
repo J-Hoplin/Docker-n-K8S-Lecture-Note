@@ -40,7 +40,7 @@ What is docker?
 
 ## Linux Container - chroot 실험하기
 
-chroot를 간단하게 실습해보자. 실습 전에 chroot의 사용법을 알고간다. 
+chroot를 간단하게 실습해보자. chroot를 통해 격리된 환경(chroot jail)을 만드는것이 주 목적이다. 실습 전에 chroot의 사용법을 알고간다. 
 
 ~~~
 chroot (변경하고자 하는 Root 폴더 Directory) (명령어 shell. Default는 /bin/sh이다.)

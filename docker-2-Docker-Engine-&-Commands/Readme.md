@@ -19,7 +19,9 @@ docker -v
 // 결과 : Docker version 20.10.21, build baeda1f
 ~~~
 ### `docker pull` 도커 이미지 pull
-기본적으로 docker는 `docker hub`라는 곳에서 이미지를 가져온다. 필요에 따라 Docker Private Registry에서 이미지를 가져올 수 도 있다. 형태는 아래와 같다.
+기본적으로 docker는 `docker hub`라는 곳에서 이미지를 가져온다. 필요에 따라 Docker Private Registry에서 이미지를 가져올 수 도 있다. 형태는 아래와 같다. **이미지를 지정할때는 `(이미지 이름):(태그명)`과 같이 작성**해 주어야한다. 만약 **태그를 적어주지 않는다면 디폴트 태그인 `latest`로 지정**되어 이미지를 받아온다. 태그는 쉽게 말해 버전이름과 동일하며, `docker hub`에서 이미지의 `tags`탭에서 확인할 수 있다. 앞으로 모든 글에서 `(이미지 이름):(태그명)`을 단순히 `(이미지 이름)`으로 부를것이다.
+
+![](./imgs/9.png)
 ~~~
 docker pull <이미지 이름>
 ~~~

@@ -1,0 +1,3 @@
+This is string written with EOF
+Multi line
+Typing

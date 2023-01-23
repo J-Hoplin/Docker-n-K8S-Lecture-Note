@@ -55,7 +55,7 @@ RUN mkdir -p /usr/lib/oracle/client\
 |1|stdout|명령어에서 출력될 내용을 저장|화면|
 |2|stderr|명령어에서 출력될 에러메세지 저장|화면|
 
-사용자는 일련번호를 이용하여 입출력 장치를 리다이렉션 해줄 수 있다. 
+사용자는 일련번호를 이용하여 입출력 장치를 리다이렉션 해줄 수 있다. 이 [링크](https://inpa.tistory.com/entry/리눅스-devnull-리다이렉션-기호-종류)에 더 자세히 나와있으니 참고하자.
 
 ## Bash Shell 문법
 

@@ -30,7 +30,8 @@ Learning Docker and Kubernetes
     2. [윈도우 도커 설치](https://goddaehee.tistory.com/251)
 ***
 ## Lecture
-
+- 📖 Appendix
+    - [Using Shell Script](./Appendix-Shell-Script-Grammer-In-Bash/Readme.md)
 - 💻 Docker
     - Week1 : [What is Docker?](./docker-1-What-is-docker%3F/Readme.md)
     - Week2 : [Docker Engine Commands](./docker-2-Docker-Engine-%26-Commands/Readme.md)

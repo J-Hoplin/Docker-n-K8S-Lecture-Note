@@ -63,3 +63,29 @@ echo $EXVAR
 
 echo "hello world" > sedtest.txt
 sed -i "s/hello/new/g" sedtest.txt
+
+name_of_function(){
+    example_var="example_variable_in_function"
+    echo $example_var
+}
+
+name_of_function
+
+give_args(){
+    echo $1
+    echo $2
+}
+
+give_args "Args1" "Args2"
+
+return_test(){
+    return $(expr $1 + $2)
+}
+return_test 10 20
+echo $?
+
+return_test2(){
+    echo Result is $(expr $1 + $2)
+}
+result=$(return_test2 40 50)
+echo $result

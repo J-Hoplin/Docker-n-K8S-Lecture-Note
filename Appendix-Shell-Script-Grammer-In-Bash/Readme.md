@@ -340,3 +340,45 @@ RUN mkdir -p /usr/lib/oracle/client\
         // 결과
         new world
         ~~~
+
+- 함수
+    - Bash Shell Script에서 함수를 정의할 수 있다. 함수는 아래와 같은 형태로 되어있다.함수 호출을 위해서는 `함수 이름만 입력`하면 된다.
+        ```bash
+        name_of_function(){
+            example_var="example_variable_in_function"
+            echo $example_var
+        }
+        ```
+    - 함수에 인자 전달을 하기 위해서는 함수 내부에서 `$1`,`$2`와 같이 접근할 수 있다. 각각의 숫자는 전달된 인자의 숫자를 의미한다. 1부터 시작한다는 점에 유의하자
+        ```bash
+        give_args(){
+            echo $1
+            echo $2
+        }
+
+        give_args "Args1" "Args2"
+
+        // 결과
+        Args1
+        Args2
+        ```
+    - 함수의 값을 반환시켜보자. 일반적인 프로그래밍 언어와 동일하게 `return` 키워드를 사용한다. return이 되면 `$?`를 통해 최근 호출 함수의 반환값을 읽을 수 있다.
+        ```bash
+        return_test(){
+            return $(expr $1 + $2)
+        }
+        return_test 10 20
+        echo $?
+
+        // 결과 : 30
+        ```
+    - 함수의 값을 반환시키는 또다른 방법을 알아보자. 이 방식은 위의 방식과 달리 `echo를 사용해 출력한 값을 저장하는 방식`이다.
+        ```bash
+        return_test2(){
+            echo Result is $(expr $1 + $2)
+        }
+        result=$(return_test2 40 50)
+        echo $result
+
+        // 결과 : Result is 90
+        ```

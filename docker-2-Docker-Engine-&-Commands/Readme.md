@@ -263,6 +263,39 @@ docker run\
 ![](./imgs/6.png)
 컨테이너는 없어졌지만, 컨테이너에서 생성한 `another-textfile.txt` 파일은 남아있는것을 볼 수 있다.
 
+### `docker inspect`명령으로 도커 리소스 정보 확인하기
+`docker inspect` 명령어를 사용하면 `도커 리소스` 정보를 확인할 수 있다. 사용 방법은 아래와 같다.
+~~~
+docker inspect (옵션) (리소스 타입) (리소스 이름)
+~~~
+
+`docker inspect`사용시 `--type`옵션을 사용하여 리소스 타입을 명시해주는것이 권장된다.(동일한 이름이 있는경우, 의도치 않은 결과 반환을 방지하기 위한 목적 등등...) `--type`의 형식과 사용방법은 아래와 같다
+~~~
+--type container|image|node|network|secret|service|volume|task|plugin
+~~~ 
+예를 들어 `mysql`이미지의 정보를 보기 위해서는 아래와 같이 작성하면 된다. `--type` 옵션이 `image`임을 명시하는것을 볼 수 있다.
+
+~~~
+docker inspect --type image mysql
+
+...
+"RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:9ba3f4dcb20cfdb61de5f20842eb213c6d45e32f3e7b67ea35d3a85d850a9bc8",
+                "sha256:3bdf7aa8845ac700a282b5606f2b40e2b4ab014f3169459153a01f0812d3f4e2",
+                "sha256:11a89786d3e0c0f7c95f2017ad6b78a6804a4d67a2738eed48956c5d8fca47a5",
+                "sha256:8a6e83029651bb299d0e83a18d78ad78c75c63c5b3479a267f33dfc322cf76dd",
+                "sha256:543438aeb09713c02c88834dc57a8273dd39637f86c2d1c5fbe9fe01077b940b",
+                "sha256:67cfcfd7e544ad41a35a3b9bb305ab6f6d6bcab43b834fc4dee01e425a5ead1f",
+                "sha256:2309d0f3860b0865bcffa7fb718bcedf79783e6ae5de2f4439325af0b0a59269",
+                "sha256:b4905ba93fc20749f871a8b4e7228a17b7887ded1e8335bb2288ffaaf8b7003d",
+                "sha256:25098214722a3a1a72beba937d19e34f9117fb6c3af373962b8ee19215f0b515",
+                "sha256:2ad57a9001a3ae89dd8e8537abb36d58c4eab28cc722dacf0cfca035eec1d5e5",
+                "sha256:38756df7e60696b7838333f7e3adcc6832324a98f6cabead8fe60906c619d278"
+...
+~~~
+
 ### `docker attach`명령으로 컨테이너 접속하기
 
 `docker attach` 명령어는 이미 실행중인 컨테이너에 접속할 때 사용한다. 사용 방법은 아래와 같다

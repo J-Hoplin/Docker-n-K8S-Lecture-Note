@@ -59,29 +59,36 @@ RUN mkdir -p /usr/lib/oracle/client\
 
 ## Bash Shell 문법
 
+- `echo`    
+    - 기본 출력 명령어이다.
+    - 예시
+        ```bash
+        echo 'hello world'
+        ```
+
 - `>`
     - 출력 리다이렉션 연산자이다. 명령의 표준 출력을 파일로 저장한다. 파일을 덮어씌우며, 파일이 없을시 새 파일을 생성한다.
     - 예시 
-        ```
+        ```bash
         echo "new" > ex.txt
         ```
 - `<`
     - 입력 리다이렉션. 파일의 내용을 읽어 표준 입력으로 사용한다.
     - 예시
-        ```
+        ```bash
         cat < ex.txt
         ```
 - `>>`
     - `>`와 동일하게 명령의 표준 출력을 파일로 저장한다. `>`와 달리 파일 뒷내용에 내용을 추가하며, 파일이 존재하지 않으면 새로 생성한다.
     - 예시 
-        ```
+        ```bash
         echo "new text" >> ex.txt
         cat ex.txt
         ```
 - `2>`
     - 명령 실행의 표준 에러를 파일로 저장한다 `>`의 역할은 위와 동일하다
     - 예시
-        ```
+        ```bash
         ca ex.txt 2> err.txt
         cat err.txt
 
@@ -91,7 +98,7 @@ RUN mkdir -p /usr/lib/oracle/client\
 - `2>>`
     - 명령 실행의 표준 에러를 파일로 저장한다. `>>`의 역할은 위와 동일하다
     - 예시
-        ```
+        ```bash
         gcc 2>> err.txt
         cat err.txt
 
@@ -103,7 +110,7 @@ RUN mkdir -p /usr/lib/oracle/client\
 - `&>` & `&>>`
     - 표준 출력과 표준 에러를 모두 파일로 저장한다. `>`, `>>`의 역할은 위와 동일하다
     - 예시
-        ```
+        ```bash
         ec "example error" &> err.txt
         echo "Hello world" &>> err.txt
 
@@ -115,7 +122,7 @@ RUN mkdir -p /usr/lib/oracle/client\
 - `1>&2` & `1>>&2`
     - 표준 출력을 표준 에러로 보낸다. 아래 예시의 경우 `echo "new world"`는 일반적인 표준 출력이 된다. 하지만, `1>&2`에 의해 표준 출력이 표준 에러로 변환되고(리다이렉션) `2>`에 의해 `error_test.txt`에 저장된다. `>`,`>>`의 역할 또한 위와 동일하다
     - 예시
-        ```
+        ```bash
         echo "new world" 2> error_test.txt 1>&2
         cat error_test.txt
 
@@ -127,7 +134,7 @@ RUN mkdir -p /usr/lib/oracle/client\
     - 표준 에러를 표준 출력으로 보낸다. 아래의 경우에는 `gcc` 명령에 인자를 주지 않아 오류가 나야한다. 하지만, `2>&1`에 의해 표준 에러는 표준 출력으로 리다이렉션 되고 `/dev/null`로 보내졌기 때문에 아무것도 출력하지 않는것이다. `/dev/null` 파일은 항상 비어있고, 이 파일에 전송된 표준 출력 데이터는 항상 버려진다. 출력값을 출력하고 싶지 않은 경우 사용하기 좋다
 
     - 예시
-        ```
+        ```bash
         gcc > /dev/null
         // 결과
         clang: error: no input files
@@ -138,40 +145,40 @@ RUN mkdir -p /usr/lib/oracle/client\
 - `|`
     - 파이프 연산자이다. 표준 출력을 다른 명령의 표준 입력으로 보낸다. 아래 예시는 `ps -ef`의 결과를 `grep`명령의 표준 입력으로 보내는것이다.
     - 예시
-        ```
+        ```bash
         ps -ef | grep .py
         ```
 - `$`
     - 변수를 사용할떄 사용한다. 값을 저장할때는 붙이지 않아도 되지만, 변수를 쓸때는 `$`를 붙여쓴다
     - 예시    
-        ```
+        ```bash
         var="example"
         echo "This is $var"
         ```
 - `$()`
     - 명령실행의 결과를 변수화 시킨다. 즉, 명령의 실행 결과를 변수에 저장하거나 다른 명령의 매개변수로 넘길 수 있다는 의미이다. 아래 예시에서 `$`앞에 `\`를 붙여준 이유는 쉘에서는 문법에 사용되는 문자를 순수 문자열로 사용하기 위해서 `\`를 붙여주어야 하기 때문이다.
     - 예시
-        ```
+        ```bash
         echo_test=$(echo "value from \$()")
         echo $echo_test
         ```
 - ` `` `
     - `$()`와 동일한 역할을 한다.
     - 예시
-        ```
+        ```bash
         echo `date`
         ```
 - `&&`
     - 한줄에 여러 명령을 실행한다. 다만 먼저 배치된 명령어가 오류가 없어야 다음 명령으로 넘어간다
     - 예시
-        ```
+        ```bash
         docker stop attach-test && docker rm attach-test
         ```
 - `;`
     - 한줄에서 여러 명령을 실행한다. `&&`와 달리 오류가 있어도 다음 명령으로 넘어간다.
     - 예시
-        ```
-        ech "wrong echo" ; echo "correct echo"
+        ```bash
+        echo "wrong echo" ; echo "correct echo"
 
         // 결과
         correct echo
@@ -179,7 +186,7 @@ RUN mkdir -p /usr/lib/oracle/client\
 - `''`
     - 문자열을 표현한다. 변수를 변수의 값으로 변환하지 못하며, `$()`, ` `` `등 명령의 실행값 또한 치환하지못한다.
     - 예시
-        ```
+        ```bash
         echo '$SHELL'
 
         // 결과
@@ -188,21 +195,21 @@ RUN mkdir -p /usr/lib/oracle/client\
 - `""`
     - 문자열을 표현한다. `''`와 달리 변수의 원래 값으로 치환이 가능하며, `$()`와   ` `` `를 통한 명령의 실행 결과도 치환할 수 있다.
     - 예시
-        ```
+        ```bash
         echo "$SHELL"
         echo "$(ls)"
         ```
 - `\`
     - 작은따옴표 안에서 큰따옴표를 사용하거나, shell 문법에 사용되는 특수문자를 문자열로 사용하기 위해 사용한다.
     - 예시
-        ```
+        ```bash
         echo 'example \"string\"'
         echo "\$pecial \$ymbolic"
         ```
 - `{start..end}`
     - 연속된 숫자를 표현한다. 일종의 배열이다.
     - 예시
-        ```
+        ```bash
         echo {1..20}
 
         // 결과
@@ -211,10 +218,11 @@ RUN mkdir -p /usr/lib/oracle/client\
 - `{str,str}`
     - `{}`안에 문자열을 여러개 지정해 명령 실행 횟수를 줄일 수 있다. 주의할 점은 `{}`안에 문자열은 `쉼표로 구분`하며 각 단어간 간격이 있어서는 안된다. 아래 예시에서는 여러개의 파일을 한번에 `copy-file`디렉토리로 옮기는 예시이다.
     - 예시
-        ```
+        ```bash
         mkdir copy-file
         cp ./{err.txt,ee.txt,ex.txt} ./copy-file
         ```
+
 - `if`
     - 조건문이다. 변수와 변수 변수와 문자열을 비교할때 주로 사용된다. 형태는 아래와 같이 작성한다. 주의할 점은 조건식과 조건식을 감싸는 `[]`는 양옆에 한칸씩 띄워주어야 한다는것이다.
         ```bash
@@ -229,7 +237,7 @@ RUN mkdir -p /usr/lib/oracle/client\
         fi
         ```
     - 예시
-        ```
+        ```bash
         a=10
         b=20
         if [ $a -lt $b ];

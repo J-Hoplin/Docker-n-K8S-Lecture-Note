@@ -1,6 +1,7 @@
 Learning Docker and Kubernetes
 ===
 ***
+- **Git clone을 하여 실습 예제 디렉토리를 사용하시는걸 권장합니다**
 - Docker, Kubernetes 강의자료입니다. 피드백은 언제든지 환영하며, 잘못된 개념은 PR 혹은 Issue남겨주시면 감사하겠습니다.
 - 개인적으로 Linux/Mac OS에서의 실습을 권장드립니다
 - 필자는 ARM 아키텍쳐 CPU를 사용중입니다(Apple Silicon).

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# 실행해보기
+
 ex="example"
 echo "This is $ex"
 

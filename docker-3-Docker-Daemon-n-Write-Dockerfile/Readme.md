@@ -473,7 +473,7 @@ docker run cmdentrytest
 Hello World
 ```
 ## 실습
-위 명령어들을 이용해서 예시 Dockerfile을 따라 작성해본다. 각각이 어떤 의미를 가지는지 생각하면서 따라 작성한다.주어진 API 코드를 사용해서 실습을 진행해본다. 예시코드는 [Example-RESTful](./Example-RESTful/)디렉토리에 있다.
+위 명령어들을 이용해서 예시 Dockerfile을 따라 작성해본다. 각각이 어떤 의미를 가지는지 생각하면서 따라 작성한다.주어진 API 코드와 Apache2 웹서버를 사용해서 실습을 진행해본다. 예시코드는 [Example-RESTful](./Example-RESTful/)디렉토리에 있다.
 
 우선 `Dockerfile`을 먼저 살펴본다. 타이핑하면서 각각의 명령어가 의미하는것을 생각해본다
 ```Dockerfile
@@ -549,4 +549,12 @@ npm notice
 listening on port 3000
 ::ffff:172.17.0.1 - - [05/Feb/2023:09:39:23 +0000] "GET /env-test HTTP/1.1" 200 42 "-" "insomnia/2022.7.5"
 ```
-API 테스팅 툴인 `Insomnia`를 실행한다. 그리고 `localhost:3600`URL에 아래와 같이 요청을 보내본다.
+API 테스팅 툴인 `Insomnia`를 실행한다. 그리고 `127.0.0.1:3600`URL에 아래와 같이 요청을 보내본다.
+
+- 127.0.0.1:3600/ping
+
+![img](./img/2.png)
+
+- 127.0.0.1:3600/env-test
+
+![img](./img/3.png)

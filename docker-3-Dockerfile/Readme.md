@@ -75,6 +75,7 @@ docker commit <옵션> <컨테이너 이름 혹은 id> <이미지이름>:<태그
 `commit` 옵션 중 사용해볼 것은 `-a`와 `-m` 옵션이다.
 - `-a` : 커밋을 진행한 사람
 - `-m` : 커밋메세지
+
 `docker commit`을 사용하기 위해 우선 컨테이너에서 나와 종료시킨다. 그 후 `docker commit` 명령어를 사용해준다. 이미지 생성시 태그가 있는경우, 없는경우 모두 생성해본다. 그 후 방금 생성한 이미지를 `grep` 명령어를 사용해 출력해본다.
 ```bash
 # Container
@@ -461,7 +462,9 @@ Hello world
 위 결과를 보면 알 수 있듯이,`CMD`는 실행 명령어에 의해 무시되지만, `ENTRYPOINT`는 우선 실행된 이후, 실행 명령어의 값이 `ENTRYPOINT`의 매개변수로 들어가는것을 볼 수 있다.
 
 ### `CMD`와 `ENTRYPOINT`를 같이 쓰는 경우
-**두 명령어를 같이 사용하는 경우**도 있다. 이러한 경우, **`CMD`는 `ENTRYPOINT`에 매개변수를 전달하는 역할만 한다**. 그렇기에 CMD 독자적으로 수행할 수 있는 능력을 잃는다.이 예시에 쓰이는 도커파일은 [entry-cmd-compare](./entry-cmd-compare/) 디렉토리에 있다.
+**두 명령어를 같이 사용하는 경우**도 있다. 이러한 경우, **`CMD`는 `ENTRYPOINT`에 매개변수를 전달하는 역할만 한다**. 이런 경우 CMD 독자적으로 명령어를 수행할 수 있는 능력을 잃는다.이 예시에 쓰이는 도커파일은 [entry-cmd-compare](./entry-cmd-compare/) 디렉토리에 있다.
+
+`docker run`을 사용해서 컨테이너를 실행할때 실행인자를 주지 않으면, `CMD`의 값이 실행인자로 전달되어 실행되는것을 볼 수 있다. 
 ```bash
 #Build image
 
@@ -472,6 +475,14 @@ docker run cmdentrytest
 #결과 
 Hello World
 ```
+만약에 `docker run`을 할때 실행 인자와 함께 전달한다면 어떻게 될까?
+```bash
+docker run cmdentrytest test
+
+#결과
+Hello test
+```
+이번에는 `CMD`의 값들이 무시되고, 실행 명령어 부분에 전달한 값이 `ENTRYPOINT`의 실행 인자로 넘겨진것을 볼 수 있다. 위에서 보았듯이 `CMD`는 `docker run`의 실행 명령어에 값이 있으면, 무시되는 성질이 있었다. `CMD`, `ENTRYPOINT`를 사용하는 경우도 동일하게, `docker run`명령어에 실행 명령어가 전달된 경우,`CMD`의 값들이 무시되고, `docker run`의 실행 명령어의 값들이 `ENTRYPOINT` 명령어의 실행 인자로 전달되는것이다.
 ## 실습
 위 명령어들을 이용해서 예시 Dockerfile을 따라 작성해본다. 각각이 어떤 의미를 가지는지 생각하면서 따라 작성한다.주어진 API 코드와 Apache2 웹서버를 사용해서 실습을 진행해본다. 예시코드는 [Example-RESTful](./Example-RESTful/)디렉토리에 있다.
 

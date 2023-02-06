@@ -1,3 +1,5 @@
+# 이 이미지는 빌드하지 마세요. 단순히 명령어들을 살펴보기 위한 예시 파일입니다.
+
 # 기반 이미지 정의
 FROM ubuntu
 
@@ -21,8 +23,8 @@ WORKDIR /example-directory
 # Add 명령어 사용해보기
 # 위에서 WORKDIR를 /example-directory로 설정했기 때문에 밑에서의 명령어는 모두 /example-directory 디렉토리 기준으로 실행된다
 # 현재디렉토리의 값을 의미하는 '.' 은 /example-directory 이 되는것이다.
-# 파일 복사. 
-ADD ./add-example.txt .
+# 파일 복사.
+ADD ./add-example.txt ./changed-name.txt
 # 디렉토리 복사
 ADD ./add-example-directory ./add-example-directory
 # URL형식의 파일 복사

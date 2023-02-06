@@ -34,10 +34,10 @@ Learning Docker and Kubernetes
 - 📖 Appendix
     - [Using Shell Script](./Appendix-Shell-Script-Grammer-In-Bash/Readme.md)
 - 💻 Docker
-    - Week1 : [What is Docker?](./docker-1-What-is-docker%3F/Readme.md)
-    - Week2 : [Docker Engine Commands](./docker-2-Docker-Engine-%26-Commands/Readme.md)
+    - Week1 : [What is Docker?](./docker-1-What-is-docker%3F/)
+    - Week2 : [Docker Engine Commands](./docker-2-Docker-Engine-Commands/)
     - Week3 : [Writing Dockerfile](./docker-3-Dockerfile/)
-    - Week4 : [Docker Volume](./docker-4-Docker-Volume/Readme.md)
-    - Week5 : [Docker Network](./docker-5-Docker-Network/Readme.md)
+    - Week4 : [Docker Volume](./docker-4-Docker-Volume/)
+    - Week5 : [Docker Network](./docker-5-Docker-Network/)
     - Week6 : [Docker Compose]()
 - ☸️ Kubernetes

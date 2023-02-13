@@ -524,7 +524,7 @@ app.get('/env-test', (req, res) => {
 
 ...
 ```
-그리고 Node.js를 사용하는 프로젝트는 주로 `npm init`이라는 명령어로 프로젝트 디렉토리를 초기화하는데, 그 과정에서 `package.json`파일이 생성된다. 그 안에 `scripts`라는 값 안에 `"key : value"` 식으로 간단하게 스크립트를 만들 수 있다. 이를 사용하기 위해서는 `npm run`이라는 명령어가 사용되고, `key`,`value`는 각각 아래와 같이 쓰인다. 이 실습에서는 `npm run start`를 사용해 볼 것이다.
+그리고 Node.js를 사용하는 프로젝트는 주로 `npm init`이라는 명령어로 프로젝트 디렉토리를 초기화하는데, 그 과정에서 `package.json`파일이 생성된다. 그 안에 `scripts`라는 값 안에 `"key : value"` 식으로 간단하게 스크립트를 만들 수 있다. 이를 사용하기 위해서는 `npm run (key)` 혹은 `npm (key)` 형식의 명령어가 사용되고, `key`,`value`는 각각 아래와 같이 쓰인다. 이 실습에서는 `start`라는 키를 가진 스크립트를 사용해 볼 것이다.
 
 ```json
 "scripts": {
@@ -533,8 +533,7 @@ app.get('/env-test', (req, res) => {
   },
 
 npm (run | 생략) (key) => (value에 적힌 명령어들 실행)
-
-npm start => "npm i && node app.js" 실행. docker run에서 실행 명령어가 전달되었기에, run 옵션이 무시되고, 실행 명령어가 대신 전달된다. 
+ 
 ```
 이제 `Dockerfile`을 이미지로 만들고 실행해본다.
 
@@ -560,7 +559,7 @@ npm notice
 listening on port 3000
 ::ffff:172.17.0.1 - - [05/Feb/2023:09:39:23 +0000] "GET /env-test HTTP/1.1" 200 42 "-" "insomnia/2022.7.5"
 ```
-API 테스팅 툴인 `Insomnia`를 실행한다. 그리고 `127.0.0.1:3600`URL에 아래와 같이 요청을 보내본다.
+npm start => "npm i && node app.js" 실행된다. `run`이 생략된 이유는 **docker run에서 실행 명령어가 전달되었기에, `CMD`의 run 옵션이 무시되고, 실행 명령어가 `ENTRYPOINT`의 명령어인 npm의 인자로 대신 전달**된다. API 테스팅 툴인 `Insomnia`를 실행한다. 그리고 `127.0.0.1:3600`URL에 아래와 같이 요청을 보내본다.
 
 - 127.0.0.1:3600/ping
 

@@ -315,7 +315,7 @@ RUN mkdir -p /usr/lib/oracle/client\
         done
         ~~~
 - `<<EOF ~~ EOF`
-    - 여러 줄의 문자열을 명령의 표준 입력으로 보낼때 사용한다.
+    - 다음 EOF가 나올때까지 명령어를 실행중인 프로그램에 값을 입력해줄 수 있다. 아래 예시의 경우에는 `cat > (file)`을 하게 되면 라인 에디터가 열리는데, 에디터에 한줄씩 입력해 주는것과 동일한 효과이다
     - 예시
         ~~~bash
         cat > justsave.txt <<EOF
@@ -324,6 +324,28 @@ RUN mkdir -p /usr/lib/oracle/client\
         Typing
         EOF
         ~~~
+    - 또 다른 예시로 파이썬 파일에 두개의 input이 있다고 했을때 `EOF`를 활용하여 입력값을 주는 방식이다. 사용자가 직접 input에 입력을 하는것이 아닌 `EOF`를 활용해 값을 자동으로 대입하는 방식이다.
+        ~~~bash
+        # EOFtestsh.sh
+
+        #!/bin/zsh
+        python3 EOFtest.py <<EOF
+        "Hello"
+        "World"
+        EOF
+        ~~~
+        ~~~python3
+        a = input()
+        b = input()
+        print(f'a : {a} | b : {b}')
+        ~~~
+        ~~~bash
+        bash EOFtestsh.sh
+
+        # 결과
+        a : "Hello" | b : "World"
+        ~~~
+        
 - `export`
     - 설정한 값을 환경변수로 만드며 형식은 아래와 같다.
         ~~~bash

@@ -532,9 +532,9 @@ app.get('/env-test', (req, res) => {
     "start": "npm i && node app.js"
   },
 
-npm run (key) => (value에 적힌 명령어들 실행)
+npm (run | 생략) (key) => (value에 적힌 명령어들 실행)
 
-npm run start => "npm i && node app.js" 실행
+npm start => "npm i && node app.js" 실행. docker run에서 실행 명령어가 전달되었기에, run 옵션이 무시되고, 실행 명령어가 대신 전달된다. 
 ```
 이제 `Dockerfile`을 이미지로 만들고 실행해본다.
 

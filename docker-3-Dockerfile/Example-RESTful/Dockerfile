@@ -17,6 +17,8 @@ WORKDIR /api
 EXPOSE 3000
 VOLUME [ "/api" ]
 
-CMD [ "run" ]
-ENTRYPOINT [ "npm" ]
+# docker run에 실행 인자를 전달하면 CMD의 값은 무시된다
+CMD [ "run" ] 
+
+ENTRYPOINT [ "bash" ]
 

@@ -51,4 +51,5 @@ Scenario Test
         - 커밋 메세지 : "new image"
         - 이미지 이름 : container2image
         - 이미지 태그 : ver1
+        
     5-2. 위 과정대로 이미지를 만든 후, 컨테이너를 실행하였다. 그리고 `test-directory/test.sh` 파일을 변경하였다. `docker diff`를 했을때 `test-directory/test.sh`는 어떤 플래그를 띄고있는가?

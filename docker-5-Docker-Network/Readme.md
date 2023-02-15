@@ -153,7 +153,7 @@ $ docker inspect --type network bridge
         },
 ...
 ~~~
-브릿지 네트워크는 생성시 `--subnet`, `--ip-range`,`--gateway` 옵션을 통해 세부사항을 지정해 줄 수 있으며, `--subnet`과 `--ip-range`는 동일한 네트워크를 사용해야한다.
+브릿지 네트워크는 생성시 `--subnet`, `--ip-range`,`--gateway` 옵션을 통해 세부사항을 지정해 줄 수 있으며, `--subnet`과 `--ip-range`는 동일한 네트워크를 사용해야한다. 옵션들에 대한 자세한 설명은 이 [링크](https://docs.docker.com/engine/reference/commandline/network_create/#options)를 참고하자
 
 ### Host Network
 Host 네트워크는 말그대로 호스트 머신의 네트워크환경을 그대로 사용할 수 있는것이다. 호스트 네트워크를 사용하면, 애플리케이션에 대한 별도의 포트포워딩이 필요없게된다. 브릿지 네트워크와 동일하게 `--network`옵션을 주어 지정한다. Host네트워크는 별도의 생성없이 `--network host`를 통해 바로 사용할 수 있다
@@ -251,7 +251,7 @@ lo        Link encap:Local Loopback
 
 ### Container Network 실험해보기
 
-컨테이너 네트워크를 사용하여 실험을 해볼 수 있다. 결론적으로 동일한 내부 IP라는것은 어떻게 보면, 동일한 PC라는 가정을 들 수 있다. 실험 가정은 아래와같다. MySQL컨테이너를 생성하고, 3306포트에서 호스팅한다. Node.js 컨테이너는 MySQL컨테이너의 컨테이너 네트워크를 사용하면, 동일한 내부 IP가 된다. 이렇게 된다면, Node.js컨테이너에서 `localhost:3306`을 통해 SQL에 접근할 수 있게된다.
+컨테이너 네트워크를 사용하여 실험을 해볼 수 있다. 결론적으로 동일한 내부 IP라는것은 어떻게 보면, 동일한 PC라는 가정을 들 수 있다. 실험 가정은 아래와같다. MySQL컨테이너를 생성하고, 3306포트에서 호스팅한다. Node.js 컨테이너는 MySQL컨테이너의 컨테이너 네트워크를 사용하면, 동일한 내부 IP가 된다. 이렇게 된다면, Node.js컨테이너에서 `localhost:3306`을 통해 SQL에 접근할 수 있게된다. 아래 있는 실험 코드들은 이 [디렉토리](./Container-Network-Test/)에 있으니 참고하자
 ![](./imgs/3.png)
 
 우선 MySQL컨테이너를 생성한다.
@@ -259,13 +259,8 @@ lo        Link encap:Local Loopback
 docker run -d --name sqlbridge -e MYSQL_ROOT_PASSWORD=hoplin1234! --network bridgetest mysql
 ~~~
 그 다음 Node.js 컨테이너 준비를 해준다. 우선 MySQL에 접속할 수 있는 간단한 코드와 DockerFile을 준비한다.
-~~~
-$ npm init -y
-$ npm i mysql2
-$ touch index.js
-~~~
 ```javascript
-# index.js
+// index.js
 const mysql = require('mysql2/promise')
 
 const db = async() => {
@@ -291,9 +286,15 @@ db()
 # Dockerfile
 FROM node
 
+LABEL maintainer="Hoplin"
+LABEL email="jhoplin7259@gmail.com"
+
+WORKDIR /sql-connect
+
 COPY . .
-RUN rm -rf node_modules\
-&& npm i
+
+RUN npm init -y\
+    && npm i mysql2
 
 ENTRYPOINT [ "/bin/bash" ]
 ```
@@ -347,7 +348,7 @@ ff02::2	ip6-allrouters
 도커는 사용자가 정의한 브릿지 네트워크에 사용되는 내장 DNS 서버를 가지고 있다. 그리고 이 DNS서버의 IP는 `127.0.0.11`이다. `--net-alias`를 통해서 alias를 등록하면, 해당 컨테이너 Private IP를 alias값을 통해 접근할 수 있다. 이 또한 Private IP는 재시작에 의해 변경될수 있다는 점에 의해서이다. 이를 통해서 위에서 보았던 `--link`옵션을 더 쉽고, 확장성 높게끔 구현할 수 있다.
 
 ### --net-alias 실험해보기
-MySQL, Redis 두개의 컨테이너를 띄워본다.두 컨테이너 모두 위에서 생성한 `bridgetest` 브릿지 네트워크에 바인드하며, MySQL의 alias는 `sqll`로 Redis의 alias는 `rediss`로 설정한다.
+MySQL, Redis 두개의 컨테이너를 띄워본다.두 컨테이너 모두 위에서 생성한 `bridgetest` 브릿지 네트워크에 바인드하며, MySQL의 alias는 `sqll`로 Redis의 alias는 `rediss`로 설정한다. 아래 실험 코드들은 이 [디렉토리](./Net-alias-test/)에 저장되어있으니 참고하자.
 ~~~
 # Redis
 docker run --name bridgeredis -p 6379:6379 --network bridgetest --network-alias rediss -d arm64v8/redis
@@ -401,7 +402,24 @@ const db = async() => {
 
 db()
 ```
-Dockerfile은 위에서 작성한것과 동일한것을 사용한다.도커 이미지를 다시 빌드해준 뒤 컨테이너를 띄워준다. `bridgetest` 브릿지 네트워크를 사용하며, 사용하지는 않을것이지만 `--net-alias`는 `nodesql`로 설정한다
+Dockerfile은 아래와 같다.
+```Dockerfile
+FROM node
+
+LABEL maintainer="Hoplin"
+LABEL email="jhoplin7259@gmail.com"
+
+WORKDIR /sql-connect
+
+COPY . .
+
+RUN npm init -y\
+    && npm i mysql2 redis
+
+ENTRYPOINT [ "/bin/bash" ]
+```
+
+도커 이미지를 다시 빌드해준 뒤 컨테이너를 띄워준다. `bridgetest` 브릿지 네트워크를 사용하며, 사용하지는 않을것이지만 `--net-alias`는 `nodesql`로 설정한다
 ```
 $ docker build -t nodebridge .
 $ docker run -itd --name nodectn --network bridgetest --network-alias nodesql nodebridge

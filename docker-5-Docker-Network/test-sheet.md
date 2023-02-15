@@ -10,7 +10,7 @@ Scenario Test
 
 2. `my-volume`이라는 도커 볼륨을 생성하시오.
 
-3. Volume Container 시나리오다. 아래 시나리오 순서대로 명령어 혹은 Dockerfile을 작성하시오. **볼륨 컨테이너에 연결될 호스트와 연결할 디렉토리 이름은 `/dir/my-directory`이다**.
+3. Volume Container 시나리오다. 아래 시나리오 순서대로 명령어 혹은 Dockerfile을 작성하시오. **볼륨 컨테이너에 연결될 호스트 디렉토리는 `/dir/my-directory`이다**.
 
     - 도커 이미지를 만든다. 아래 조건만 만족하면 된다
         - `ubuntu:14.04`를 사용한다

@@ -43,12 +43,12 @@ Scenario Test
 
     5-1. 아래 시나리오대로 명령어를입력하고 `docker commit`을 활용하여 이미지를 만든다
 
-        1. `ubuntu:14.04`이미지의 컨테이너를 실행한다
-        2. `test-directory`라는 이름의 디렉토리를 생성한다
-        3. `test-directory`안에는 `hello world`를 출력하는 쉘스크립트인 `test.sh`가 있어야한다
-        4. 컨테이너를 종료하고 컨테이너를 이미지화 시킨다. 단 조건이 있다.
-            - 이미지를 커밋한 사람 : Hoplin
-            - 커밋 메세지 : "new image"
-            - 이미지 이름 : container2image
-            - 이미지 태그 : ver1
+    - 1\) `ubuntu:14.04`이미지의 컨테이너를 실행한다
+    - 2\) `test-directory`라는 이름의 디렉토리를 생성한다
+    - 3\) `test-directory`안에는 `hello world`를 출력하는 쉘스크립트인 `test.sh`가 있어야한다
+    - 4\) 컨테이너를 종료하고 컨테이너를 이미지화 시킨다. 단 조건이 있다.
+        - 이미지를 커밋한 사람 : Hoplin
+        - 커밋 메세지 : "new image"
+        - 이미지 이름 : container2image
+        - 이미지 태그 : ver1
     5-2. 위 과정대로 이미지를 만든 후, 컨테이너를 실행하였다. 그리고 `test-directory/test.sh` 파일을 변경하였다. `docker diff`를 했을때 `test-directory/test.sh`는 어떤 플래그를 띄고있는가?

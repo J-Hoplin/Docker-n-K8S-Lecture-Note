@@ -31,6 +31,8 @@ Learning Docker and Kubernetes
     2. [윈도우 도커 설치](https://goddaehee.tistory.com/251)
 ## Install Minikube & Multipass
 
+**해당 강의는 Minikube Version 1.29.0을 사용합니다**
+
 - Minikube : https://minikube.sigs.k8s.io/docs/start/
 
 - Multipass : https://multipass.run

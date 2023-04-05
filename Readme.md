@@ -49,3 +49,6 @@ Learning Docker and Kubernetes
     - Week5 : [Docker Network](./docker-5-Docker-Network/)
     - Week6 : [Docker Compose]()
 - ☸️ Kubernetes
+    - Lesson1 : [Start Kubernetes](./kubernetes-1-Starting-Kubernetes/)
+    - Lesson2 : [About K8S Pod](./kubernetes-2-Pod/)
+    - Lesson3 : [About K8S Replica Set](./kubernetes-3-Replica-Set/)

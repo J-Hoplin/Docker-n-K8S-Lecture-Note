@@ -31,7 +31,7 @@ spec:
 쿠버네티스 YAML 파일들은 일반적으로 `apiVersion`, `kind`,`metadata`, `spec` 네개의 필드로 구성이 된다. 각각의 필드가 의미하는것들을 살펴보자. 각각의 필드들에 정의하는 내용은 [Document](https://kubernetes.io/ko/docs/concepts/overview/working-with-objects/kubernetes-objects/#요구되는-필드)를 참고하자
 - apiVersion : YAML파일에서 정의한 오브젝트 API Version을 의미한다. 오브젝트 종류에 따라 달라질 수 있다.
 - kind : 리소스의 종류를 의미한다(오브젝트의 종류). 여기서 생성하는것은 Pod이므로, Kind를 Pod로 기재하였다. 앞에서 보았던 `kubectl api-resources`의 `KIND`필드에 나오는 값을 적어주면 된다.
-- metadata : name, uid, namespace과 같이 컴포넌트를 구분지어줄 수 있는 데이터를 적어준다. metadata에 기재되는 것들은 오브젝트를 유일하게(unique)끔 구분해주는 역할을 한다.
+- metadata : name, uid, namespace과 같이 컴포넌트를 구분지어줄 수 있는 데이터를 적어준다. metadata에 기재되는 것들은 ***오브젝트를 유일하게(unique)끔 구분해주는 역할**을 한다.
 - spec : 리소스를 생성하기 위한 자세한 정보를 기재한다. 위의 예시에서는 Pod에서 실행될 컨테이너 정보를 나타내는 `container`필드 아래에 항목을 작성한 뒤 하위 항목인 `image`, 그리고 container의 포트를 의미하는 `port`등  컨테이너의 자세한 정보를 적어주었다.
 
 YAML파일을 이제 실제 pod로 만들어 보자. `kubectl apply -f` 명령어를 통해서 쿠버네티스에 오브젝트를 생성할 수 있다.

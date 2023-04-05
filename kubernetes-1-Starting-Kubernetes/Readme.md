@@ -7,7 +7,7 @@ Starting Kubernetes
 ## Kubernetes?
 Kubernetes는 컨테이너 오케스트레이션 도구이다. 조금더 자세히 정의하자면, 서버 자원 클러스터링, 마이크로서비스 구조의 컨테이너 배포, 재해복구 등 컨테이너 기반의 서비스 운영에 필요한 여러가지 기능을 폭 넓게 지원해주는 도구이다. 또한 이러한 기능이나 컴포넌트를 사용자가 쉽게 커스터마이징 할 수 있다는 장점도 존재한다.구글에 의해 첫 개발되었지만, 현재는 CNCF(Cloud Native Computing Foundation)에 의해 프로젝트가 관리되고 있다.
 
-쿠버네티스를 사용하기 위해서는 PaaS(Platform as a Service, AWS, GCP, NCP...etc)를 사용해도 되며, On-Premise형태로 설치해서 사용해도 된다. 해당 강의에서는 Minikube, Multipass를 사용하여 진행을 할것이다.
+쿠버네티스를 사용하기 위해서는 PaaS(Platform as a Service, AWS, GCP, NCP...etc)를 사용해도 되며, On-Premise형태로 설치해서 사용해도 된다. 해당 강의에서는 Minikube, Multipass(Multi Node Clustering)를 사용하여 진행을 할것이다.
 
 ## Kubernetes 시작하기
 쿠버네티스는 리소스를 `오브젝트`라는 형태로 관리를 한다. 오브젝트는 앞으로 볼 컨테이너의 집합인 `Pod`, 컨테이너 집합을 관리하는 `Replica Set`, 사용자인 `Service Account`등 쿠버네티스의 리소스들을 의미한다.

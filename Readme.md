@@ -29,6 +29,12 @@ Learning Docker and Kubernetes
 
     1. [WSL2 설치하기](https://gaesae.com/161)
     2. [윈도우 도커 설치](https://goddaehee.tistory.com/251)
+## Install Minikube & Multipass
+
+- Minikube : https://minikube.sigs.k8s.io/docs/start/
+
+- Multipass : https://multipass.run
+
 ***
 ## Lecture
 - 📖 Appendix

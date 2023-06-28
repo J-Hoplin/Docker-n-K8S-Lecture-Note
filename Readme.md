@@ -29,6 +29,14 @@ Learning Docker and Kubernetes
 
     1. [WSL2 설치하기](https://gaesae.com/161)
     2. [윈도우 도커 설치](https://goddaehee.tistory.com/251)
+## Install Minikube & Multipass
+
+**해당 강의는 Minikube Version 1.29.0을 사용합니다**
+
+- Minikube : https://minikube.sigs.k8s.io/docs/start/
+
+- Multipass : https://multipass.run
+
 ***
 ## Lecture
 - 📖 Appendix
@@ -41,3 +49,6 @@ Learning Docker and Kubernetes
     - Week5 : [Docker Network](./docker-5-Docker-Network/)
     - Week6 : [Docker Compose]()
 - ☸️ Kubernetes
+    - Lesson1 : [Start Kubernetes](./kubernetes-1-Starting-Kubernetes/)
+    - Lesson2 : [About K8S Pod](./kubernetes-2-Pod/)
+    - Lesson3 : [About K8S Replica Set](./kubernetes-3-Replica-Set/)

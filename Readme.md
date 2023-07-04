@@ -87,3 +87,4 @@
   - Week6 : [Docker Compose]()
 - ☸️ Kubernetes
   - Lesson1 : [Start Kubernetes](./kubernetes-1-Starting-Kubernetes/)
+  - Lesson1-1 : [Kubectl](./kubernetes-1-1-Kubectl/)

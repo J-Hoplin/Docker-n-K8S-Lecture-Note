@@ -37,42 +37,7 @@
 
 ## Kubernetes
 
-본 강의에서의 쿠버네티스 권장사항들은 아래와 같습니다
-
-- 멀티노드 클러스터
-- K8S 혹은 K3S (Minikube는 권장하지 않습니다)
-- MacOS 혹은 Ubuntu Linux 환경
-
----
-
-해당 강의의 기준 환경은 아래와 같습니다
-
-- K3S Virtual Cluster
-- NFS for PV,PVC : Raspberry Pi 3
-  - 라즈베리파이를 통해 NFS만들기 : https://velog.io/@hoplin/라즈베리파이-4를-활용한-NFS서버-구축-및-Kubernetes-Pod-연결
-
----
-
-### Recommend to use Lens, the Kubernetes IDE
-
-- Lens : https://k8slens.dev
-  ![img](./kubernetes-1-Starting-Kubernetes/imgs/2.png)
-
----
-
-## Prepare your Kubernetes Environment
-
-### K3S Virtual Cluster
-
-- https://github.com/J-hoplin1/K3S-Virtual-Cluster
-
-### Install Minikube & Multipass (Not Recommended)
-
-- Minikube : https://minikube.sigs.k8s.io/docs/start/
-
-- Multipass : https://multipass.run
-
----
+- `cluster-config.json`: 실습시 사용한 가상 클러스터 정보
 
 ## Lecture
 

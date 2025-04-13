@@ -1,5 +1,7 @@
 ## Replication Controller & Replicasets
 
+- [공식문서](https://kubernetes.io/ko/docs/concepts/workloads/controllers/replicaset/)
+
 Replicaion Controller와 Replicasets 모두 Pod에 대한 High-Availability, Load Banalance, Scale 등을 도와준다. `Replication Controller`는 일종의 레거시로서, 현재는 `Replicasets`로 대체되고 있는 추세이다. 두개의 차이점은 아래와 같다.
 
 - API Version
@@ -7,6 +9,8 @@ Replicaion Controller와 Replicasets 모두 Pod에 대한 High-Availability, Loa
   - Replicasets: apps/v1
 - Replicaset은 `selector` 정의가 필요함
   Replication Controller는 template으로 정의한 Pod만 관리할 수 있다. 하지만 Replicasets는 selector를 통해 template을 통해 생성되지 않는 Pod도 관리할 수 있다.
+
+> 일반적으로 Replicasets를 단독으로 쓰는 경우는 거의 없으며 Deployments와 함께 사용한다.
 
 ## Replication Controller & Replicasets Declarative
 

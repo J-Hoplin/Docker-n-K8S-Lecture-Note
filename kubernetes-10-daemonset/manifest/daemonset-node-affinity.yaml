@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-node-affinity
+  labels:
+    tier: system
+    do: logging
+spec:
+  selector:
+    matchLabels:
+      tier: system
+      do: logging
+  template:
+    metadata:
+      labels:
+        tier: system
+        do: logging
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: color
+                    operator: Exists
+      containers:
+        - name: assume-this-is-some-global-application
+          image: nginx
+          resources:
+            limits:
+              memory: 500Mi

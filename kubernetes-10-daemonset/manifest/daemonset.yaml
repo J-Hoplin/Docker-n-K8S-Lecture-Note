@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx
+  labels:
+    tier: system
+    do: logging
+spec:
+  selector:
+    matchLabels:
+      tier: system
+      do: logging
+  template:
+    metadata:
+      labels:
+        tier: system
+        do: logging
+    spec:
+      containers:
+        - name: assume-this-is-some-global-application
+          image: nginx
+          resources:
+            limits:
+              memory: 500Mi

@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-toleration
+  labels:
+    tier: backend
+spec:
+  nodeName: worker-2
+  containers:
+    - name: nginx-container
+      image: nginx
+  tolerations:
+    - key: "color"
+      operator: "Equal"
+      value: "red"
+      effect: "NoExecute"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-without-toleration
+  labels:
+    tier: backend
+spec:
+  nodeName: worker-2
+  containers:
+    - name: nginx-container
+      image: nginx

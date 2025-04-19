@@ -73,3 +73,54 @@ myapp-deployment-dc6cd6cdf-td6rl   1/1     Running   0          2m32s
 myapp-deployment-dc6cd6cdf-zg8sr   1/1     Running   0          2m32s
 myapp-deployment-dc6cd6cdf-zl6cf   1/1     Running   0          2m32s
 ```
+
+## 특정 Namespace에 리소스 제한하기
+
+- [공식문서](https://kubernetes.io/docs/concepts/policy/resource-quotas/)
+- [공식문서 - Resource Quota 필드](https://kubernetes.io/docs/concepts/policy/resource-quotas/#resource-quota-per-priorityclass)
+
+Namespace별로 리소스양을 제한할 수 있다. 실제 운영환경에서는 팀별로 혹은 각 목적별 환경에 따라서 리소스 제한량이 달라질 수 있다. `ResourceQuota`를 사용하면 각 Namespace별로 리소스 양을 제한할 수 있다. Resource Quota를 Decalrative한 방법으로 정의해보면 아래와 같이 정의할 수 있다.
+
+```yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: test-ns-resoruce-quota
+  namespace: test-ns
+spec:
+  hard:
+    pods: "10"
+    requests.cpu: "4"
+    requests.memory: 5Gi
+    limits.cpu: "4"
+    limits.memory: 5Gi
+```
+
+정의에서 볼 수 있듯이, 해당 Quota가 정의되는 Namespace와 해당 Namespace에 제한할 리소스 양을 정의하는것을 볼 수 있다.
+
+`requests.cpu`, `requests.memory` 가 정의되어있는 경우, 해당 네임스페이스에 추가되는 모든 컨테이너는 반드시 CPU나 메모리에 대한 명시적 요청을 지정해야한다. 즉 컨테이너 생성시, `resources.requests.cpu`와 `resources.requests.memory`를 반드시 명시해야한다는 의미이다.
+
+`limits.cpu`, `limits.memory`가 정의되어있는 경우 해당 네임스페이스에 추가되는 모든 컨테이너는 반드시 CPU나 메모리의 명시적인 상한을 정의해야한다. 즉 컨테이너 생성시 `resources.limits.cpu`와 `resources.limits.memory`를 반드시 명시해야하는것이다.
+
+Pod의 리소스 제한과 관련해서는 해당 [문서](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)를 참고하자.
+
+Resource Quota를 적용하고 Namespace를 describe 해보면 아래와 같이 Quota가 적용되었음이 명시되어있다.
+
+```
+Name:         test-ns
+Labels:       kubernetes.io/metadata.name=test-ns
+Annotations:  <none>
+Status:       Active
+
+Resource Quotas
+  Name:            test-ns-resoruce-quota
+  Resource         Used  Hard
+  --------         ---   ---
+  limits.cpu       0     4
+  limits.memory    0     5Gi
+  pods             6     10
+  requests.cpu     0     4
+  requests.memory  0     5Gi
+
+No LimitRange resource.
+```

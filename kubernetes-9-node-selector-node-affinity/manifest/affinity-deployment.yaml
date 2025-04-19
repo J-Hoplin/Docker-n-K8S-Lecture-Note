@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-affinity-test
+  labels:
+    tier: test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: test
+  template:
+    metadata:
+      labels:
+        tier: test
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: color
+                    operator: In
+                    values:
+                      - green
+                      - blue
+      containers:
+        - name: nginx-container
+          image: nginx

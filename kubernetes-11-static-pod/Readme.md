@@ -15,6 +15,10 @@ Static Pod를 생성하기 위해서는 특정 디렉토리에 Static Pod가 정
 - K8S: `/etc/kubernetes/manifests`
 - K3S: `/var/lib/rancher/k3s/agent/pod-manifests`
 
+k3s에서는 볼 수 없지만 k8s의 해당 디렉토리에 가면 아래와 같이 `kube-apiserver`, `kube-controller-manager`, `kube-scheduler`, `etcd` 이 4개의 기본 Static Pod들이 존재하는것을 볼 수 있다.
+
+![img](./img/7.png)
+
 kubelete은 주기적으로 해당 디렉토리를 읽은 후에 노드에 Pod를 생성한다. kubelet은 해당 파일을 통해서 Pod를 관리한다. 아래 사항들을 참고하자
 
 - Static Pod의 Application Crush가 발생하면 Restart를 한다

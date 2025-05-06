@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-definition
+spec:
+  containers:
+    - name: webapp-test
+      image: nginx
+      env:
+        - name: SOME_ENV_1
+          value: value1
+        - name: SOME_ENV_2
+          value: value2

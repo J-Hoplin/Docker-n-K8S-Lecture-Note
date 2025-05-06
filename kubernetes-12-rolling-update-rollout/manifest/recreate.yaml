@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recreate-deployment
+  labels:
+    app: myapp
+    type: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      type: nginx
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        type: nginx
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:1.27

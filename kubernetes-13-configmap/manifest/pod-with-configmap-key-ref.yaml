@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pod-key-ref-configs
+data:
+  COLOR: green
+  MODE: prod
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-key-ref
+spec:
+  containers:
+    - name: simple-pod
+      image: ubuntu
+      env:
+        - name: COLOR_KEY_NAME_CHANGED
+          valueFrom:
+            configMapKeyRef:
+              name: pod-key-ref-configs
+              key: COLOR
+      command: ["/bin/bash", "-c", "echo $COLOR_KEY_NAME_CHANGED"]

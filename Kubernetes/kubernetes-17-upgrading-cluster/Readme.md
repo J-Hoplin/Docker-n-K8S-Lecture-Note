@@ -199,3 +199,121 @@ node/node01 drained
 ```
 kubectl uncordoned node01
 ```
+
+## Node Cordon & Uncordoned
+
+아래와 같은 구성의 노드가 있다고 가정해보자
+
+![img](./img/node-state-1.png)
+
+만약 여기서 가운데에 있는 Worker가 Down 되었다고 가정해보자.
+
+![img](./img/node-state-2.png)
+
+노드가 Down 되고 나서는 크게 두가지 경우로 나누어지게 된다.
+
+1. 노드가 즉시 온라인으로 들어옴: 기존과 동일하게 Kubelet 프로세스가 작동된다
+
+2. 노드가 Pod Eviction Time 이상 돌아오지 않는 경우: 노드가 죽었다고 판단. Pod Eviction Time은 기본값은 5분이며, `kube-controller-manager`를 통해서 수정할 수 있다.
+
+   이런 경우 Replicaset Controller에 의해 관리되는 Pod들은 클러스터 내 다른 노드들에 생성되게 된다. 별개 Controller가 없는 Pod의 경우에는 그대로 사라지게 된다.
+
+그렇다면 노드가 Down되는 경우가 언제 있을까? 전기가 나가거나 하는 등 예기치 못한 상황이 있을 수 있지만 노드의 하드웨어적인 업그레이드가 필요한 등의 경우에도 노드가 다운된다. 그런 경우에는 안전하게 해당 노드의 Pod들을 옮기고 나서 노드를 클러스터에서 모두 제거하고 작업하는것이 가장 안전하다.
+
+만약 노드에 있는 모든 Pod들을 모두 제거하고 다른 노드들에서 구현되게끔 하고 싶다면 `Drain`을 해주어야한다. 먼저 예시로 manifest에 있는 deployment.yaml을 실행해준다.
+
+```
+╰─ kubectl apply -f deployment.yaml
+deployment.apps/myapp-deployment created
+
+
+╰─ kubectl get pods --namespace=default -o wide
+NAME                               READY   STATUS              RESTARTS   AGE   IP       NODE            NOMINATED NODE   READINESS GATES
+myapp-deployment-dc6cd6cdf-7gzqd   0/1     ContainerCreating   0          6s    <none>   worker-node-2   <none>           <none>
+myapp-deployment-dc6cd6cdf-gmdld   0/1     ContainerCreating   0          6s    <none>   worker-node-2   <none>           <none>
+myapp-deployment-dc6cd6cdf-m9nk2   0/1     ContainerCreating   0          6s    <none>   master-node     <none>           <none>
+myapp-deployment-dc6cd6cdf-rrvf7   0/1     ContainerCreating   0          6s    <none>   master-node     <none>           <none>
+myapp-deployment-dc6cd6cdf-s99wj   0/1     ContainerCreating   0          6s    <none>   worker-node-1   <none>           <none>
+myapp-deployment-dc6cd6cdf-xdxld   0/1     ContainerCreating   0          6s    <none>   worker-node-1   <none>           <none>
+```
+
+만약 여기서 `worker-node-01`의 하드웨어 교체작업이 있어 Drain한다고 가정해보자.(우선 추가 flag들은 무시한다.)
+
+```
+kubectl drain (node-name)
+```
+
+```
+╰─ kubectl drain worker-node-1 --ignore-daemonsets --delete-emptydir-data
+node/worker-node-1 cordoned
+Warning: ignoring DaemonSet-managed Pods: kube-system/svclb-traefik-d3ab6e8f-ktjvp
+evicting pod kube-system/metrics-server-8677f8544d-fklmj
+evicting pod default/myapp-deployment-dc6cd6cdf-s99wj
+evicting pod default/myapp-deployment-dc6cd6cdf-xdxld
+evicting pod kube-system/helm-install-traefik-jc7rz
+evicting pod kube-system/local-path-provisioner-ffbcc4db4-6gqm7
+pod/helm-install-traefik-jc7rz evicted
+pod/local-path-provisioner-ffbcc4db4-6gqm7 evicted
+pod/myapp-deployment-dc6cd6cdf-xdxld evicted
+pod/myapp-deployment-dc6cd6cdf-s99wj evicted
+pod/metrics-server-8677f8544d-fklmj evicted
+node/worker-node-1 drained
+```
+
+로그에서 주목해야할 점은 첫번째 로그인 `node/worker-node-1 cordoned` 이 부분이다. **`cordoned`라는 것은 해당 노드가 Non-Schedulable하다는 의미를 가지고 있다.**
+
+Node 자체를 Cordon으로 만들기 위해서는
+
+```
+kubectl cordon (node name)
+```
+
+과 같이 명령어를 작성해줄 수 있다. `kubectl drain`의 동작은 내부적으로 해당 노드를 cordon으로 만들기 때문에 drain로그에도 Node가 cordoned되었다고 나오는것이다.
+
+이제 default namespace의 pod들이 올라가있는 Node정보와 Node들의 상태를 확인해보자.
+
+```
+╰─ kubectl get pods --namespace=default -o wide
+NAME                               READY   STATUS    RESTARTS   AGE    IP          NODE            NOMINATED NODE   READINESS GATES
+myapp-deployment-dc6cd6cdf-5fxp5   1/1     Running   0          31s    10.42.0.7   master-node     <none>           <none>
+myapp-deployment-dc6cd6cdf-7gzqd   1/1     Running   0          117s   10.42.2.5   worker-node-2   <none>           <none>
+myapp-deployment-dc6cd6cdf-gmdld   1/1     Running   0          117s   10.42.2.4   worker-node-2   <none>           <none>
+myapp-deployment-dc6cd6cdf-m9nk2   1/1     Running   0          117s   10.42.0.6   master-node     <none>           <none>
+myapp-deployment-dc6cd6cdf-nlbjz   1/1     Running   0          31s    10.42.2.6   worker-node-2   <none>           <none>
+myapp-deployment-dc6cd6cdf-rrvf7   1/1     Running   0          117s   10.42.0.5   master-node     <none>           <none>
+
+╰─ kubectl get nodes
+NAME            STATUS                     ROLES                  AGE     VERSION
+master-node     Ready                      control-plane,master   9m40s   v1.30.11+k3s1
+worker-node-1   Ready,SchedulingDisabled   <none>                 9m30s   v1.30.11+k3s1
+worker-node-2   Ready                      <none>                 9m16s   v1.30.11+k3s1
+```
+
+모든 Pod들은 Master Node와 Worker Node 2에 호스팅 되어있는 것을 볼 수 있으며, worker node 1은 SchedulingDisabled상태인것을 볼 수 있다.
+
+이제 다음으로 worker-node-1이 하드웨어 작업을 마치고 다시 클러스터에 돌아왔다고 가정하자. 다시 클러스터에 들어오더라도 worker-node-01은 cordoned상태이기 때문에, 즉 Scheduling이 Disabled상태이기 때문에 Pod가 배치될 수 없는 상태이다. Pod를 스케줄링 하기 위해서는 상태를 UnCordoned로 변경해 주어야만 한다.
+
+```
+kuectl uncordon (node-name)
+```
+
+```
+╰─ kubectl uncordon  worker-node-1
+node/worker-node-1 uncordoned
+```
+
+한번 일부러 특정 Pod를 삭제해본다. 그러다 보면 Worker Node 1에도 Pod가 배치되는것을 볼 수 있다.
+
+```
+╰─ kubectl delete pods myapp-deployment-dc6cd6cdf-7gzqd
+pod "myapp-deployment-dc6cd6cdf-7gzqd" deleted
+
+╰─ kubectl get pods --namespace=default -o wide
+NAME                               READY   STATUS    RESTARTS   AGE    IP          NODE            NOMINATED NODE   READINESS GATES
+myapp-deployment-dc6cd6cdf-5fxp5   1/1     Running   0          9m6s   10.42.0.7   master-node     <none>           <none>
+myapp-deployment-dc6cd6cdf-gmdld   1/1     Running   0          10m    10.42.2.4   worker-node-2   <none>           <none>
+myapp-deployment-dc6cd6cdf-m9nk2   1/1     Running   0          10m    10.42.0.6   master-node     <none>           <none>
+myapp-deployment-dc6cd6cdf-nlbjz   1/1     Running   0          9m6s   10.42.2.6   worker-node-2   <none>           <none>
+myapp-deployment-dc6cd6cdf-rrvf7   1/1     Running   0          10m    10.42.0.5   master-node     <none>           <none>
+myapp-deployment-dc6cd6cdf-wncqd   1/1     Running   0          48s    10.42.1.8   worker-node-1   <none>           <none>
+```
